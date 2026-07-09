@@ -7,9 +7,8 @@
   "tag": "geometry",
   "level": "general",
   "lang": "zh",
-  "accent": "#2C9678",
+  "accent": "not-a-color",
   "author": "everywhy",
-  "license": "CC BY-SA 4.0",
   "prerequisites": null,
   "age_range": null
 }
