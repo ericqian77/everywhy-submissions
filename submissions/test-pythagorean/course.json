@@ -1,0 +1,15 @@
+{
+  "format_version": 1,
+  "slug": "pythagorean-theorem",
+  "topic": "pythagorean-theorem",
+  "title": "为什么是 3-4-5？",
+  "summary": "四个一样的直角三角形，在同一个大正方形里换个摆法：中间的洞从 c² 变成 a² + b²——勾股定理自己浮现。",
+  "tag": "geometry",
+  "level": "general",
+  "lang": "zh",
+  "accent": "#2C9678",
+  "author": "everywhy",
+  "license": "CC BY-SA 4.0",
+  "prerequisites": null,
+  "age_range": null
+}
