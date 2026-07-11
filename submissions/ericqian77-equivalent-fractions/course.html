@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>为什么不同分数可以相等？</title>
+<meta name="description" content="把同一个整体越切越细，看见 1/2、2/4 和 4/8 为什么表示完全相同的量。" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="为什么不同分数可以相等？" />
+<meta property="og:description" content="把同一个整体越切越细，看见 1/2、2/4 和 4/8 为什么表示完全相同的量。" />
+<meta property="og:image" content="https://everywhy.ai/assets/og-default.png" />
+<meta property="og:locale" content="zh_CN" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#F7F3EA;
+    --paper-2:#FFFDF8;
+    --ink:#1E2A38;
+    --muted:#657080;
+    --line:#CFC8BA;
+    --blue:#2458A6;
+    --blue-soft:#DCE8F8;
+    --coral:#E2644D;
+    --coral-soft:#F9DDD5;
+    --green:#297A65;
+    --green-soft:#D9EDE7;
+    --yellow:#F3C453;
+    --dark:#172536;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body{
+    margin:0;
+    color:var(--ink);
+    background:var(--paper);
+    font-family:"Noto Sans SC",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.75;
+    overflow-x:hidden;
+  }
+  button{ font:inherit; }
+  .wrap{ width:min(1040px,calc(100% - 36px)); margin:0 auto; }
+  .display{ font-family:"ZCOOL XiaoWei","Noto Sans SC",serif; font-weight:400; }
+  .dz-back{
+    position:fixed;
+    top:16px;
+    left:16px;
+    z-index:30;
+    padding:7px 13px;
+    color:var(--ink);
+    background:rgba(255,253,248,.94);
+    border:1px solid rgba(30,42,56,.14);
+    border-radius:999px;
+    box-shadow:0 5px 18px rgba(30,42,56,.09);
+    text-decoration:none;
+    font-size:12px;
+    font-weight:700;
+  }
+  .dz-alt{
+    position:fixed;
+    top:16px;
+    right:16px;
+    z-index:30;
+    padding:7px 13px;
+    color:var(--blue);
+    background:rgba(255,253,248,.94);
+    border:1px solid rgba(36,88,166,.24);
+    border-radius:999px;
+    box-shadow:0 5px 18px rgba(30,42,56,.09);
+    text-decoration:none;
+    font-size:12px;
+    font-weight:900;
+  }
+  .hero{
+    min-height:92vh;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(320px,.9fr);
+    align-items:center;
+    gap:52px;
+    padding:92px 0 50px;
+  }
+  .eyebrow{
+    margin:0 0 13px;
+    color:var(--blue);
+    font-size:14px;
+    font-weight:900;
+  }
+  h1{
+    max-width:700px;
+    margin:0 0 20px;
+    font-size:clamp(44px,7vw,76px);
+    line-height:1.08;
+    letter-spacing:0;
+  }
+  h1 em{ color:var(--coral); font-style:normal; }
+  .lead{
+    max-width:36em;
+    margin:0;
+    color:var(--muted);
+    font-size:18px;
+  }
+  .hero-visual{
+    position:relative;
+    min-height:420px;
+    display:grid;
+    place-items:center;
+  }
+  .hero-sheet{
+    width:min(430px,90vw);
+    padding:34px 26px 28px;
+    background:var(--paper-2);
+    border:2px solid var(--ink);
+    border-radius:8px;
+    box-shadow:14px 14px 0 var(--blue-soft);
+    transform:rotate(1.2deg);
+  }
+  .hero-eq{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:13px;
+    color:var(--dark);
+    font-size:38px;
+    font-weight:900;
+  }
+  .fraction{
+    display:inline-grid;
+    grid-template-rows:1fr 2px 1fr;
+    min-width:38px;
+    align-items:center;
+    text-align:center;
+    line-height:1.05;
+  }
+  .fraction i{ height:2px; background:currentColor; }
+  .mini-bars{ display:grid; gap:15px; margin-top:26px; }
+  .mini-bar{
+    height:44px;
+    display:grid;
+    border:2px solid var(--ink);
+    background:var(--paper-2);
+  }
+  .mini-bar.two{ grid-template-columns:repeat(2,1fr); }
+  .mini-bar.four{ grid-template-columns:repeat(4,1fr); }
+  .mini-bar span{ border-right:1px solid var(--ink); }
+  .mini-bar span:last-child{ border-right:0; }
+  .mini-bar .on{ background:var(--coral); }
+  .same-brace{
+    margin-top:13px;
+    color:var(--coral);
+    text-align:center;
+    font-size:13px;
+    font-weight:900;
+  }
+
+  .wrong-band{ padding:58px 0; color:#F8F4EB; background:var(--dark); }
+  .wrong-grid{ display:grid; grid-template-columns:.8fr 1.2fr; gap:48px; align-items:center; }
+  .wrong-sign{
+    width:112px;
+    height:112px;
+    display:grid;
+    place-items:center;
+    border:5px solid var(--coral);
+    border-radius:50%;
+    color:var(--coral);
+    font-size:54px;
+    font-weight:900;
+    line-height:1;
+  }
+  .wrong-band h2{ margin:0 0 10px; font-size:32px; line-height:1.3; letter-spacing:0; }
+  .wrong-band p{ margin:0; color:#CBD4DF; }
+  .wrong-band strong{ color:#FFD367; }
+
+  .story{ position:relative; height:560vh; background:var(--paper); }
+  .sticky{
+    position:sticky;
+    top:0;
+    min-height:100vh;
+    display:grid;
+    align-content:center;
+    padding:40px 18px 28px;
+  }
+  .stage-head{
+    width:min(900px,100%);
+    margin:0 auto 12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+  }
+  .hint{ color:var(--muted); font-size:13px; font-weight:700; }
+  .playbtn{
+    min-height:40px;
+    padding:7px 15px;
+    border:1px solid var(--blue);
+    border-radius:999px;
+    color:var(--blue);
+    background:var(--paper-2);
+    cursor:pointer;
+    font-size:13px;
+    font-weight:900;
+  }
+  .playbtn:hover{ color:#fff; background:var(--blue); }
+  .playbtn:disabled{ opacity:.58; cursor:default; }
+  #fractionCv{
+    display:block;
+    width:min(900px,96vw);
+    aspect-ratio:9/5;
+    margin:0 auto;
+  }
+  .caption{
+    width:min(760px,100%);
+    min-height:154px;
+    margin:8px auto 0;
+    text-align:center;
+  }
+  .stepcount{ margin:0 0 4px; color:var(--coral); font-size:13px; font-weight:900; }
+  .caption h2{ margin:0 0 8px; font-size:29px; line-height:1.3; letter-spacing:0; }
+  .caption p{ max-width:650px; margin:0 auto; color:var(--muted); font-size:16px; }
+
+  .rule-band{ padding:80px 0; background:var(--paper-2); border-top:1px solid var(--line); }
+  .rule-grid{ display:grid; grid-template-columns:.86fr 1.14fr; gap:58px; align-items:start; }
+  .section-kicker{ margin:0 0 8px; color:var(--green); font-size:13px; font-weight:900; }
+  .rule-band h2,.try-band h2{ margin:0 0 15px; font-size:38px; line-height:1.2; letter-spacing:0; }
+  .rule-copy{ margin:0; color:var(--muted); }
+  .rule-copy strong{ color:var(--ink); }
+  .rule-board{
+    padding:28px;
+    border:2px solid var(--ink);
+    border-radius:8px;
+    background:#fff;
+    box-shadow:10px 10px 0 var(--green-soft);
+  }
+  .rule-line{ display:flex; justify-content:center; align-items:center; gap:16px; font-size:32px; font-weight:900; }
+  .rule-note{ margin:19px 0 0; padding-top:16px; border-top:1px solid var(--line); color:var(--muted); font-size:14px; }
+  .rule-note strong{ color:var(--coral); }
+
+  .try-band{ padding:80px 0 90px; background:var(--green-soft); }
+  .try-inner{ width:min(820px,calc(100% - 36px)); margin:0 auto; }
+  .try-top{ display:flex; align-items:end; justify-content:space-between; gap:28px; margin-bottom:28px; }
+  .try-top p{ max-width:32em; margin:0; color:#45665D; }
+  .segmented{ display:inline-flex; padding:4px; border:1px solid #78A497; border-radius:8px; background:#F9FFFC; }
+  .segmented button{
+    min-width:58px;
+    min-height:38px;
+    border:0;
+    border-radius:5px;
+    color:#45665D;
+    background:transparent;
+    cursor:pointer;
+    font-weight:900;
+  }
+  .segmented button.active{ color:#fff; background:var(--green); }
+  .lab{
+    padding:30px;
+    border:2px solid var(--ink);
+    border-radius:8px;
+    background:var(--paper-2);
+  }
+  .lab-eq{ margin-bottom:22px; text-align:center; font-size:28px; font-weight:900; }
+  .lab-bar{
+    display:grid;
+    width:100%;
+    height:88px;
+    border:2px solid var(--ink);
+  }
+  .lab-piece{ border-right:1px solid var(--ink); background:#fff; transition:background .2s ease; }
+  .lab-piece:last-child{ border-right:0; }
+  .lab-piece.on{ background:var(--coral); }
+  .lab-result{ margin:17px 0 0; color:var(--muted); text-align:center; }
+  .lab-result strong{ color:var(--coral); }
+
+  .closing{ padding:88px 0 100px; color:#F8F4EB; background:var(--dark); text-align:center; }
+  .closing .big{ margin:0 auto 18px; font-size:clamp(38px,7vw,70px); line-height:1.15; letter-spacing:0; }
+  .closing p{ max-width:620px; margin:0 auto; color:#C9D2DC; }
+  .closing strong{ color:#FFD367; }
+  .dz-end{ margin-top:52px; color:#9EABB8; font-size:12px; }
+  .dz-end a{ color:#F8F4EB; }
+
+  @media(max-width:900px){
+    .hero{ min-height:auto; grid-template-columns:1fr; gap:24px; padding:92px 0 54px; }
+    h1{ font-size:48px; }
+    .hero-visual{ min-height:350px; }
+    .hero-sheet{ box-shadow:8px 8px 0 var(--blue-soft); }
+    .wrong-grid,.rule-grid{ grid-template-columns:1fr; gap:24px; }
+    .wrong-sign{ width:76px; height:76px; border-width:4px; font-size:38px; }
+    .story{ height:500vh; }
+    .sticky{ padding-top:58px; }
+    .caption{ min-height:180px; }
+    .caption h2{ font-size:25px; }
+    .try-top{ align-items:start; flex-direction:column; }
+    .lab{ padding:20px 15px; }
+    .lab-bar{ height:70px; }
+  }
+  @media(max-width:420px){
+    .wrap{ width:min(100% - 28px,1040px); }
+    h1{ font-size:41px; }
+    .lead{ font-size:16px; }
+    .hero-visual{ min-height:310px; }
+    .hero-sheet{ padding:25px 18px 22px; }
+    .hero-eq{ gap:9px; font-size:31px; }
+    .mini-bar{ height:38px; }
+    .stage-head{ align-items:flex-start; }
+    .hint{ max-width:145px; }
+    #fractionCv{ width:calc(100% + 36px); margin-left:-18px; }
+    .rule-band h2,.try-band h2{ font-size:32px; }
+    .rule-board{ padding:22px 15px; box-shadow:6px 6px 0 var(--green-soft); }
+    .rule-line{ gap:9px; font-size:26px; }
+    .try-inner{ width:min(100% - 28px,820px); }
+    .segmented{ width:100%; }
+    .segmented button{ flex:1; min-width:0; }
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .playbtn{ display:none; }
+    .lab-piece{ transition:none; }
+    .story{ height:auto; }
+    .sticky{ position:relative; min-height:auto; padding:70px 18px; }
+  }
+</style>
+</head>
+<body>
+<a class="dz-back" href="https://everywhy.ai">← 返回课程</a>
+<a class="dz-alt" href="equivalent-fractions-en.html" lang="en">English</a>
+
+<main>
+  <section class="hero wrap">
+    <div>
+      <p class="eyebrow">GRADE 4 · 分数的秘密</p>
+      <h1 class="display">为什么不同分数可以<em>相等</em>？</h1>
+      <p class="lead">数字明明不一样，怎么会表示同一个量？别先背“分子分母同时乘”。我们把同一块巧克力重新切几次，答案会自己出现。</p>
+    </div>
+    <div class="hero-visual" aria-label="二分之一与四分之二覆盖相同长度的示意图">
+      <div class="hero-sheet">
+        <div class="hero-eq" aria-label="二分之一等于四分之二">
+          <span class="fraction"><span>1</span><i></i><span>2</span></span>
+          <span>=</span>
+          <span class="fraction"><span>2</span><i></i><span>4</span></span>
+        </div>
+        <div class="mini-bars" aria-hidden="true">
+          <div class="mini-bar two"><span class="on"></span><span></span></div>
+          <div class="mini-bar four"><span class="on"></span><span class="on"></span><span></span><span></span></div>
+        </div>
+        <div class="same-brace">涂色的总长度完全一样</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrong-band">
+    <div class="wrap wrong-grid">
+      <div class="wrong-sign" aria-hidden="true">×</div>
+      <div>
+        <h2 class="display">先拆掉一个常见误会</h2>
+        <p>“分母越大，分数就越大”不对。分母说的是<strong>整个东西被平均切成几份</strong>。同一个整体里，切成 8 份时，每一份反而比切成 2 份时更小。判断分数大小，不能只看分母一个数字。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="story" id="story">
+    <div class="sticky">
+      <div class="stage-head">
+        <span class="hint">向下滚动，跟着切开同一个整体</span>
+        <button class="playbtn" id="playBtn" type="button" aria-label="自动播放课程主动画">▶ 自动播放</button>
+      </div>
+      <canvas id="fractionCv" aria-hidden="true"></canvas>
+      <div class="caption" aria-live="polite">
+        <p class="stepcount" id="stepCount">第 1 步，共 5 步</p>
+        <h2 class="display" id="capTitle">先拿同一块巧克力</h2>
+        <p id="capText">把它平均切成 2 份，拿走其中 1 份。涂色部分就是二分之一。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="rule-band">
+    <div class="wrap rule-grid">
+      <div>
+        <p class="section-kicker">把发现写成规则</p>
+        <h2 class="display">份数变了，<br />总量没有变</h2>
+        <p class="rule-copy">每一块都被继续平均切成同样多的小块时，<strong>总份数</strong>和<strong>已经拿走的份数</strong>会按同一个倍数增加。小块更多了，但所有涂色小块拼起来仍然覆盖原来的那一半。</p>
+      </div>
+      <div class="rule-board">
+        <div class="rule-line" aria-label="二分之一等于一乘二除以二乘二，等于四分之二">
+          <span class="fraction"><span>1</span><i></i><span>2</span></span>
+          <span>=</span>
+          <span class="fraction"><span>1 × 2</span><i></i><span>2 × 2</span></span>
+          <span>=</span>
+          <span class="fraction"><span>2</span><i></i><span>4</span></span>
+        </div>
+        <p class="rule-note"><strong>关键：</strong>把每一份再平均切成 2 小份，所以总份数和涂色份数都变成原来的 2 倍。换成每份切 3 小份或 4 小份也一样，但比较的必须是同一个整体。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="try-band">
+    <div class="try-inner">
+      <div class="try-top">
+        <div>
+          <p class="section-kicker">动手检查</p>
+          <h2 class="display">把每一半继续细分</h2>
+          <p>选择每一块再切成几份。观察分子和分母怎样一起变化，以及涂色总长度是否改变。</p>
+        </div>
+        <div class="segmented" role="group" aria-label="选择细分倍数">
+          <button type="button" data-k="2" class="active" aria-pressed="true">× 2</button>
+          <button type="button" data-k="3" aria-pressed="false">× 3</button>
+          <button type="button" data-k="4" aria-pressed="false">× 4</button>
+        </div>
+      </div>
+      <div class="lab">
+        <div class="lab-eq" id="labEq">1/2 = 2/4</div>
+        <div class="lab-bar" id="labBar" aria-label="四等分中涂色两份"></div>
+        <p class="lab-result" id="labResult">一共 4 小份，涂色 2 小份；涂色仍占整个长度的 <strong>一半</strong>。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap">
+      <h2 class="display big">不同的是小块的名字，<br />相同的是覆盖的总量。</h2>
+      <p><strong>1/2 = 2/4 = 4/8</strong>，不是因为我们背了一条规则，而是因为把同一个整体切得更细，并不会凭空增加或减少它。</p>
+      <div class="dz-end">拆解课程 · <a href="https://everywhy.ai">everywhy.ai</a></div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var story = document.getElementById("story");
+  var canvas = document.getElementById("fractionCv");
+  var ctx = canvas.getContext("2d");
+  var capTitle = document.getElementById("capTitle");
+  var capText = document.getElementById("capText");
+  var stepCount = document.getElementById("stepCount");
+  var playBtn = document.getElementById("playBtn");
+  var autoTimer = 0;
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+  var COLORS = {ink:"#1E2A38",muted:"#657080",paper:"#FFFDF8",blue:"#2458A6",blueSoft:"#DCE8F8",coral:"#E2644D",green:"#297A65",line:"#CFC8BA",yellow:"#F3C453"};
+  var captions = [
+    {title:"先拿同一块巧克力",text:"把它平均切成 2 份，拿走其中 1 份。涂色部分就是二分之一。"},
+    {title:"每一块再切成 2 份",text:"原来的每一半都变成 2 小块。整个巧克力现在有 4 小份，原来的涂色区域里有 2 小份。"},
+    {title:"所以 1/2 就是 2/4",text:"切线增加了，小块变多了，但涂色区域的左边和右边都没有移动。覆盖的总量还是一半。"},
+    {title:"还可以继续切得更细",text:"每一小块再对半切：4 份变成 8 份，2 份涂色变成 4 份涂色。于是 2/4 又等于 4/8。"},
+    {title:"数字不同，长度完全相同",text:"1/2、2/4、4/8 用不同大小的小块数同一段长度。分数的写法变了，表示的量没有变。"}
+  ];
+
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function smooth(t){ t=clamp(t,0,1); return t*t*(3-2*t); }
+  function segment(p,a,b){ return smooth((p-a)/(b-a)); }
+  function roundRect(c,x,y,w,h,r){
+    var rr=Math.min(r,w/2,h/2);
+    c.beginPath(); c.moveTo(x+rr,y); c.arcTo(x+w,y,x+w,y+h,rr); c.arcTo(x+w,y+h,x,y+h,rr); c.arcTo(x,y+h,x,y,rr); c.arcTo(x,y,x+w,y,rr); c.closePath();
+  }
+  function fitCanvas(){
+    var rect=canvas.getBoundingClientRect();
+    var w=Math.max(320,rect.width),h=w*5/9;
+    var pw=Math.round(w*DPR),ph=Math.round(h*DPR);
+    if(canvas.width!==pw||canvas.height!==ph){canvas.width=pw;canvas.height=ph;}
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    return {w:w,h:h};
+  }
+  function text(c,value,x,y,size,color,weight,align){
+    c.save(); c.fillStyle=color; c.font=(weight||700)+" "+size+"px 'Noto Sans SC', sans-serif"; c.textAlign=align||"center"; c.textBaseline="middle"; c.fillText(value,x,y); c.restore();
+  }
+  function drawBar(c,x,y,w,h,den,num,alpha,label){
+    c.save(); c.globalAlpha=alpha;
+    c.fillStyle=COLORS.paper; roundRect(c,x,y,w,h,6); c.fill();
+    c.save(); roundRect(c,x,y,w,h,6); c.clip(); c.fillStyle=COLORS.coral; c.fillRect(x,y,w*(num/den),h); c.restore();
+    c.strokeStyle=COLORS.ink; c.lineWidth=2; roundRect(c,x,y,w,h,6); c.stroke();
+    for(var i=1;i<den;i++){
+      var cut=x+w*i/den;
+      c.beginPath(); c.moveTo(cut,y); c.lineTo(cut,y+h); c.stroke();
+    }
+    if(label) text(c,label,x+w/2,y+h+30,24,COLORS.ink,900,"center");
+    c.restore();
+  }
+  function drawKnife(c,x,y,alpha){
+    c.save(); c.globalAlpha=alpha; c.translate(x,y); c.rotate(-.18);
+    c.fillStyle=COLORS.blue; roundRect(c,-8,-76,16,55,6); c.fill();
+    c.fillStyle="#DCE8F8"; c.beginPath(); c.moveTo(-7,-20); c.lineTo(9,-20); c.lineTo(4,24); c.lineTo(-3,24); c.closePath(); c.fill();
+    c.strokeStyle=COLORS.ink; c.lineWidth=2; c.stroke(); c.restore();
+  }
+  function drawMain(p){
+    var f=fitCanvas(),c=ctx,w=f.w,h=f.h;
+    c.clearRect(0,0,w,h);
+    var scale=Math.min(w/900,h/500),ox=(w-900*scale)/2,oy=(h-500*scale)/2;
+    c.save(); c.translate(ox,oy); c.scale(scale,scale);
+    c.fillStyle=COLORS.blueSoft; roundRect(c,18,18,864,455,8); c.fill();
+    c.fillStyle=COLORS.paper; roundRect(c,28,28,844,435,8); c.fill();
+
+    // Verified geometry: 690*(1/2) = 690*(2/4) = 690*(4/8) = 345 px.
+    // In general, k/(2k) = 1/2 for every nonzero k, so subdivision cannot move the shaded boundary.
+    var baseX=105,baseW=690,barH=112;
+    if(p<.8){
+      // Five equal narrative phases: base, cut to fourths, hold, cut to eighths, compare.
+      var four=segment(p,.22,.34),eight=segment(p,.62,.74);
+      var den=p<.2?2:(p<.6?(four<.5?2:4):(eight<.5?4:8));
+      var num=den/2;
+      text(c,"同一个整体",450,82,16,COLORS.muted,700,"center");
+      drawBar(c,baseX,155,baseW,barH,den,num,1, num+" / "+den);
+      if(p>.2&&p<.4){
+        var knifeP=segment(p,.2,.34);
+        drawKnife(c,baseX+baseW/4,lerp(128,260,knifeP),1-segment(p,.34,.4));
+        drawKnife(c,baseX+baseW*3/4,lerp(128,260,knifeP),1-segment(p,.34,.4));
+      }
+      if(p>.6&&p<.8){
+        var knifeP2=segment(p,.6,.74);
+        for(var q=1;q<8;q+=2) drawKnife(c,baseX+baseW*q/8,lerp(128,260,knifeP2),1-segment(p,.74,.8));
+      }
+      var boundary=baseX+baseW/2;
+      c.strokeStyle=COLORS.green; c.lineWidth=5; c.beginPath(); c.moveTo(boundary,142); c.lineTo(boundary,283); c.stroke();
+      text(c,"涂色边界一直在这里",boundary,315,15,COLORS.green,900,"center");
+    }else{
+      var rows=[{d:2,n:1,label:"1 / 2"},{d:4,n:2,label:"2 / 4"},{d:8,n:4,label:"4 / 8"}];
+      for(var r=0;r<rows.length;r++){
+        var a=r===0?1:(r===1?segment(p,.8,.86):segment(p,.86,.92));
+        drawBar(c,175,80+r*120,550,66,rows[r].d,rows[r].n,a,rows[r].label);
+      }
+      var eqA=segment(p,.94,.99);
+      c.save(); c.globalAlpha=eqA; c.fillStyle=COLORS.green; roundRect(c,260,422,380,46,6); c.fill();
+      text(c,"三种写法，同一个量",450,445,20,"#FFFFFF",900,"center"); c.restore();
+    }
+    c.restore();
+  }
+  function progress(){
+    if(reduceMotion) return 1;
+    var start=story.offsetTop,end=start+story.offsetHeight-window.innerHeight;
+    return clamp((window.scrollY-start)/Math.max(1,end-start),0,1);
+  }
+  function updateCaption(p){
+    var index=Math.min(captions.length-1,Math.floor(p*captions.length));
+    capTitle.textContent=captions[index].title;
+    capText.textContent=captions[index].text;
+    stepCount.textContent="第 "+(index+1)+" 步，共 "+captions.length+" 步";
+  }
+  function render(){ var p=progress(); drawMain(p); updateCaption(p); }
+  function stopAuto(){ if(autoTimer){clearTimeout(autoTimer);autoTimer=0;} playBtn.disabled=false; }
+  function autoPlay(){
+    if(reduceMotion)return;
+    stopAuto();
+    var stageStart=story.offsetTop;
+    var travel=Math.max(1,story.offsetHeight-window.innerHeight);
+    var stops=[.08,.30,.50,.70,.995];
+    var index=0;
+    playBtn.disabled=true; playBtn.textContent="播放中…";
+    function advance(){
+      window.scrollTo({top:stageStart+travel*stops[index],behavior:"smooth"});
+      index+=1;
+      if(index<stops.length){autoTimer=setTimeout(advance,3400);}else{
+        autoTimer=setTimeout(function(){autoTimer=0;playBtn.disabled=false;playBtn.textContent="↻ 再看一次";},3400);
+      }
+    }
+    advance();
+  }
+  playBtn.addEventListener("click",autoPlay);
+  window.addEventListener("scroll",render,{passive:true});
+  window.addEventListener("resize",render);
+
+  var labBar=document.getElementById("labBar");
+  var labEq=document.getElementById("labEq");
+  var labResult=document.getElementById("labResult");
+  var controls=[].slice.call(document.querySelectorAll("[data-k]"));
+  function updateLab(k){
+    var den=2*k,num=k;
+    labBar.innerHTML="";
+    labBar.style.gridTemplateColumns="repeat("+den+",1fr)";
+    for(var i=0;i<den;i++){
+      var piece=document.createElement("span");
+      piece.className="lab-piece"+(i<num?" on":"");
+      piece.setAttribute("aria-hidden","true");
+      labBar.appendChild(piece);
+    }
+    labBar.setAttribute("aria-label",den+" 等分中涂色 "+num+" 份");
+    labEq.textContent="1/2 = "+num+"/"+den;
+    labResult.innerHTML="一共 "+den+" 小份，涂色 "+num+" 小份；涂色仍占整个长度的 <strong>一半</strong>。";
+    controls.forEach(function(btn){var active=Number(btn.getAttribute("data-k"))===k;btn.classList.toggle("active",active);btn.setAttribute("aria-pressed",active?"true":"false");});
+  }
+  controls.forEach(function(btn){btn.addEventListener("click",function(){updateLab(Number(btn.getAttribute("data-k")));});});
+  updateLab(2);
+  render();
+})();
+</script>
+</body>
+</html>
