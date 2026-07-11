@@ -1,0 +1,15 @@
+{
+  "format_version": 1,
+  "slug": "equivalent-fractions-en",
+  "topic": "equivalent-fractions",
+  "title": "Why can different fractions be equal?",
+  "summary": "Cut the same whole into smaller pieces and see why 1/2, 2/4, and 4/8 represent exactly the same amount.",
+  "tag": "math",
+  "level": "kids",
+  "lang": "en",
+  "accent": "#2458A6",
+  "author": "ericqian77",
+  "license": "CC BY-SA 4.0",
+  "prerequisites": "Understanding numerators, denominators, and equal shares",
+  "age_range": "8-10"
+}
