@@ -1,0 +1,15 @@
+{
+  "format_version": 1,
+  "slug": "e2e-close-test",
+  "topic": "e2e-close-test",
+  "title": "E2E close test",
+  "summary": "throwaway submission to test the close/status pipeline",
+  "tag": "physics",
+  "level": "general",
+  "lang": "en",
+  "accent": "#123456",
+  "author": "e2e-bot",
+  "license": "CC BY-SA 4.0",
+  "prerequisites": null,
+  "age_range": null
+}
