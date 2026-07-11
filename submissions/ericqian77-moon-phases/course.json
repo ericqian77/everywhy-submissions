@@ -1,0 +1,15 @@
+{
+  "format_version": 1,
+  "slug": "moon-phases",
+  "topic": "moon-phases",
+  "title": "月亮为什么有圆缺？",
+  "summary": "把月相拆成三个零件：太阳照亮半个月球、月球绕地球转、我们从不同角度看见这半个亮面。",
+  "tag": "physics",
+  "level": "general",
+  "lang": "zh",
+  "accent": "#D8A94A",
+  "author": "ericqian77",
+  "license": "CC BY-SA 4.0",
+  "prerequisites": null,
+  "age_range": null
+}
