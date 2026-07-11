@@ -1,0 +1,15 @@
+{
+  "format_version": 1,
+  "slug": "equivalent-fractions",
+  "topic": "equivalent-fractions",
+  "title": "为什么不同分数可以相等？",
+  "summary": "把同一个整体越切越细，看见 1/2、2/4 和 4/8 为什么表示完全相同的量。",
+  "tag": "math",
+  "level": "kids",
+  "lang": "zh",
+  "accent": "#2458A6",
+  "author": "ericqian77",
+  "license": "CC BY-SA 4.0",
+  "prerequisites": "理解分子、分母和平均分的含义",
+  "age_range": "8-10"
+}
