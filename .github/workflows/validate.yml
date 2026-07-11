@@ -22,10 +22,10 @@ jobs:
           for d in $dirs; do
             echo "=== $d ==="
             if [ ! -f "$d/course.html" ] || [ ! -f "$d/course.json" ]; then
-              echo "::error::$d 必须且只能包含 course.html 与 course.json"; fail=1; continue
+              echo "::error::$d must contain exactly course.html and course.json"; fail=1; continue
             fi
             extras=$(ls "$d" | grep -v -E '^course\.(html|json)$' || true)
-            if [ -n "$extras" ]; then echo "::error::$d 含多余文件: $extras"; fail=1; fi
+            if [ -n "$extras" ]; then echo "::error::$d has extra files: $extras"; fail=1; fi
             node scripts/validate-course.js "$d/course.html" "$d/course.json" || fail=1
           done
           exit $fail
