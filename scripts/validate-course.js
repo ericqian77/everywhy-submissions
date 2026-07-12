@@ -1,14 +1,15 @@
 #!/usr/bin/env node
-// 单课程校验器(DCF v1,见 docs/SPEC.md)。
-// 用法: node scripts/validate-course.js <course.html> <course.json>
-// 零依赖;不读 content.js,不依赖本仓库结构——可独立分发给外部投稿者使用。
+// Single-course validator (DCF v1, see docs/SPEC.md).
+// Usage: node scripts/validate-course.js <course.html> <course.json>
+// Zero dependencies; does not read content.js and has no dependency on this repo's
+// structure — safe to distribute standalone to external contributors.
 
 const fs = require('fs');
 const path = require('path');
 
 const [, , htmlArg, jsonArg] = process.argv;
 if (!htmlArg || !jsonArg) {
-  console.error('用法: node validate-course.js <course.html> <course.json>');
+  console.error('Usage: node validate-course.js <course.html> <course.json>');
   process.exit(1);
 }
 
@@ -17,50 +18,59 @@ const warns = [];
 const err = msg => errors.push(`  ${msg}`);
 const warn = msg => warns.push(`  ${msg}`);
 
-if (!fs.existsSync(htmlArg)) { console.error(`✗ HTML 文件不存在: ${htmlArg}`); process.exit(1); }
-if (!fs.existsSync(jsonArg)) { console.error(`✗ course.json 不存在: ${jsonArg}`); process.exit(1); }
+if (!fs.existsSync(htmlArg)) { console.error(`✗ HTML file not found: ${htmlArg}`); process.exit(1); }
+if (!fs.existsSync(jsonArg)) { console.error(`✗ course.json not found: ${jsonArg}`); process.exit(1); }
 
 const html = fs.readFileSync(htmlArg, 'utf8');
 let meta;
 try {
   meta = JSON.parse(fs.readFileSync(jsonArg, 'utf8'));
 } catch (e) {
-  console.error(`✗ course.json 不是合法 JSON: ${e.message}`);
+  console.error(`✗ course.json is not valid JSON: ${e.message}`);
   process.exit(1);
 }
 
-// ---- 一、course.json schema(错误级) ----
+// ---- 1. course.json schema (blocking) ----
 const REQUIRED = ['format_version', 'slug', 'topic', 'title', 'summary', 'tag', 'level', 'lang', 'accent', 'author', 'license'];
 REQUIRED.forEach(k => {
-  if (meta[k] === undefined || meta[k] === null || meta[k] === '') err(`course.json 缺字段: ${k}`);
+  if (meta[k] === undefined || meta[k] === null || meta[k] === '') err(`course.json missing field: ${k}`);
 });
-if (meta.format_version !== 1) err(`format_version 应为 1(数字),实际: ${JSON.stringify(meta.format_version)}`);
-if (meta.slug && !/^[a-z0-9-]+$/.test(meta.slug)) err(`slug 只能是小写字母/数字/连字符: "${meta.slug}"`);
-if (meta.accent && !/^#[0-9A-Fa-f]{6}$/.test(meta.accent)) err(`accent 应为 #RRGGBB: "${meta.accent}"`);
-if (meta.lang && !/^[a-z]{2}$/.test(meta.lang)) warn(`lang 建议用 ISO 639-1 两位代码,实际: "${meta.lang}"`);
+if (meta.format_version !== 1) err(`format_version should be 1 (number), got: ${JSON.stringify(meta.format_version)}`);
+if (meta.slug && !/^[a-z0-9-]+$/.test(meta.slug)) err(`slug must be lowercase letters/digits/hyphens only: "${meta.slug}"`);
+if (meta.accent && !/^#[0-9A-Fa-f]{6}$/.test(meta.accent)) err(`accent should be #RRGGBB: "${meta.accent}"`);
+if (meta.lang && !/^[a-z]{2}$/.test(meta.lang)) warn(`lang should be a two-letter ISO 639-1 code, got: "${meta.lang}"`);
 if (meta.prerequisites !== undefined && meta.prerequisites !== null &&
     typeof meta.prerequisites !== 'string' && !Array.isArray(meta.prerequisites))
-  err('prerequisites 若提供应为字符串或字符串数组');
+  err('prerequisites, if present, should be a string or an array of strings');
 if (meta.age_range !== undefined && meta.age_range !== null && typeof meta.age_range !== 'string')
-  err('age_range 若提供应为字符串,如 "10-14"');
+  err('age_range, if present, should be a string, e.g. "10-14"');
 
-// ---- 二、硬性技术约定(错误级,见 SPEC 第二节) ----
+// ---- 2. Hard technical requirements (blocking, see SPEC section 2) ----
 
-// 完全自包含:除 Google Fonts 外无外部 <script src> / <link rel=stylesheet href>
+// unfilled shell placeholders
+if (/【【|】】/.test(html)) err('unfilled template placeholder (【【…】】) — fill every placeholder from the shell');
+
+// <html lang> vs metadata lang (primary subtag must match)
+const langAttr = (html.match(/<html[^>]*\blang=["']([^"']+)["']/i) || [])[1];
+if (!langAttr) warn('<html> tag has no lang attribute');
+else if (meta.lang && langAttr.toLowerCase().split('-')[0] !== String(meta.lang).toLowerCase())
+  err(`<html lang="${langAttr}"> does not match course.json lang "${meta.lang}"`);
+
+// Fully self-contained: no external <script src> / <link rel=stylesheet href> besides Google Fonts
 const scriptSrcs = [...html.matchAll(/<script[^>]+src=["']([^"']+)["']/gi)].map(m => m[1]);
 const linkHrefs = [...html.matchAll(/<link[^>]+rel=["']stylesheet["'][^>]*href=["']([^"']+)["']/gi)].map(m => m[1]);
 const allowedHost = u => /^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u);
-scriptSrcs.forEach(src => { if (!allowedHost(src)) err(`非自包含:外部 <script src> 指向 ${src}(仅允许 Google Fonts CDN)`); });
-linkHrefs.forEach(href => { if (!allowedHost(href)) err(`非自包含:外部样式表 ${href}(仅允许 Google Fonts CDN)`); });
+scriptSrcs.forEach(src => { if (!allowedHost(src)) err(`not self-contained: external <script src> pointing to ${src} (only the Google Fonts CDN is allowed)`); });
+linkHrefs.forEach(href => { if (!allowedHost(href)) err(`not self-contained: external stylesheet ${href} (only the Google Fonts CDN is allowed)`); });
 
-// reduced-motion 处理(至少出现一次检测/降级)
-if (!/prefers-reduced-motion/.test(html)) err('未检测到 prefers-reduced-motion 处理(CSS 媒体查询或 JS matchMedia 均可)');
+// reduced-motion handling (at least one detection/degradation path)
+if (!/prefers-reduced-motion/.test(html)) err('no prefers-reduced-motion handling detected (a CSS media query or JS matchMedia both count)');
 
-// 装饰性 canvas 需要 aria-hidden(启发式:有 canvas 就该有至少一处 aria-hidden)
+// decorative canvas needs aria-hidden (heuristic: any canvas should come with at least one aria-hidden)
 if (/<canvas/i.test(html) && !/aria-hidden/i.test(html))
-  warn('页面含 <canvas> 但未见 aria-hidden——确认装饰性画布已标注,信息性画布用了 aria-label');
+  warn('page has a <canvas> but no aria-hidden anywhere — confirm decorative canvases are marked, and informational ones use aria-label');
 
-// 安全静态检查:禁止外联请求/表单/跳转劫持模式(UGC 托管的硬前提)
+// security static checks: no outbound requests/forms/navigation hijacking (a hard requirement for hosting UGC)
 const DANGEROUS = [
   [/\bfetch\s*\(/, 'fetch('],
   [/\bXMLHttpRequest\b/, 'XMLHttpRequest'],
@@ -70,19 +80,32 @@ const DANGEROUS = [
   [/\bwindow\.open\s*\(/, 'window.open('],
 ];
 DANGEROUS.forEach(([re, label]) => {
-  if (re.test(html)) err(`安全检查:检测到可疑模式 ${label}——课程页不应发起外部请求/表单提交/跳转劫持`);
+  if (re.test(html)) err(`security check: suspicious pattern detected — ${label} (a course page must not make outbound requests, submit forms, or hijack navigation)`);
 });
 
-// ---- 三、警告级(不阻塞) ----
-if (!/og:image/.test(html)) warn('页面缺 og:image 标签');
-if (!/<meta[^>]+name=["']viewport["']/i.test(html)) warn('页面缺 viewport meta 标签');
-if (meta.prerequisites === undefined) warn('course.json 未显式提供 prerequisites(可选,建议填 null 而非省略)');
-if (meta.age_range === undefined) warn('course.json 未显式提供 age_range(可选,建议填 null 而非省略)');
+// ---- 3. Warnings (non-blocking) ----
 
-// ---- 输出 ----
+// relative references that don't resolve next to the HTML file (broken when
+// the course is distributed standalone — e.g. a leftover ../favicon.svg)
+const baseDir = path.dirname(path.resolve(htmlArg));
+new Set([...html.matchAll(/(?:src|href)=["']([^"']+)["']/gi)]
+  .map(m => m[1])
+  .filter(u => !/^(https?:|mailto:|data:|javascript:|#)/i.test(u))
+).forEach(u => {
+  const clean = u.split(/[?#]/)[0];
+  if (clean && !fs.existsSync(path.resolve(baseDir, clean)))
+    warn(`relative reference "${u}" does not resolve next to the HTML file — broken when distributed standalone`);
+});
+
+if (!/og:image/.test(html)) warn('page is missing an og:image tag');
+if (!/<meta[^>]+name=["']viewport["']/i.test(html)) warn('page is missing a viewport meta tag');
+if (meta.prerequisites === undefined) warn('course.json does not explicitly set prerequisites (optional — prefer null over omitting it)');
+if (meta.age_range === undefined) warn('course.json does not explicitly set age_range (optional — prefer null over omitting it)');
+
+// ---- Output ----
 if (errors.length) {
-  console.error(`✗ 校验失败,${errors.length} 个问题:\n` + errors.join('\n'));
+  console.error(`✗ validation failed, ${errors.length} issue(s):\n` + errors.join('\n'));
   process.exit(1);
 }
-if (warns.length) console.warn(`⚠ ${warns.length} 条警告:\n` + warns.join('\n'));
-console.log(`✓ ${path.basename(htmlArg)} 通过格式校验(DCF v1)`);
+if (warns.length) console.warn(`⚠ ${warns.length} warning(s):\n` + warns.join('\n'));
+console.log(`✓ ${path.basename(htmlArg)} passes format validation (DCF v1)`);
