@@ -1,0 +1,15 @@
+{
+  "format_version": 1,
+  "slug": "yiq-fraction-snack-lab",
+  "topic": "fraction-parts",
+  "title": "Fraction Snack Lab: Meet the Two Numbers",
+  "summary": "Split one whole snack into equal pieces and discover how the numerator counts chosen pieces while the denominator counts all the pieces.",
+  "tag": "math",
+  "level": "kids",
+  "lang": "en",
+  "accent": "#6C4CE3",
+  "author": "YiQ",
+  "license": "CC BY-SA 4.0",
+  "prerequisites": "Can count to 10",
+  "age_range": "8-10"
+}
