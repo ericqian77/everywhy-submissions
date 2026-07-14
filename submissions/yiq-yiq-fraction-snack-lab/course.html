@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fraction Snack Lab: Meet the Two Numbers</title>
+<meta name="description" content="A colourful, hands-on lesson showing how the numerator counts chosen equal pieces and the denominator counts all equal pieces in one whole." />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Fraction Snack Lab: Meet the Two Numbers" />
+<meta property="og:description" content="A colourful, hands-on lesson showing how the numerator counts chosen equal pieces and the denominator counts all equal pieces in one whole." />
+<meta property="og:image" content="https://everywhy.ai/assets/og-default.png" />
+<meta property="og:locale" content="en_US" />
+<style>
+  :root{
+    --ink:#27304d;
+    --paper:#fffdf7;
+    --purple:#6c4ce3;
+    --pink:#ff5fa2;
+    --yellow:#ffd84d;
+    --mint:#52d6b5;
+    --blue:#4e9cff;
+    --line:#d9d8ee;
+    --shadow:0 16px 40px rgba(61,49,112,.16);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 8% 8%, rgba(255,216,77,.28) 0 6%, transparent 6.2%),
+      radial-gradient(circle at 92% 18%, rgba(82,214,181,.22) 0 7%, transparent 7.2%),
+      linear-gradient(180deg,#f8f4ff 0,#fffdf7 38%,#eefcff 100%);
+    font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
+    line-height:1.55;
+  }
+  button,a{font:inherit}
+  button{touch-action:manipulation}
+  button:focus-visible,a:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
+  .dz-back{
+    position:fixed;left:14px;top:14px;z-index:20;
+    padding:8px 14px;border-radius:999px;text-decoration:none;
+    color:var(--ink);background:rgba(255,255,255,.94);
+    border:2px solid rgba(108,76,227,.18);box-shadow:0 5px 18px rgba(61,49,112,.12);
+    font-size:.82rem;font-weight:800;
+  }
+  main{overflow:hidden}
+  .hero{
+    min-height:92vh;display:grid;place-items:center;
+    padding:88px 20px 58px;position:relative;
+  }
+  .hero::before,.hero::after{
+    content:"";position:absolute;border:8px solid rgba(108,76,227,.13);
+    width:120px;height:120px;transform:rotate(18deg);border-radius:32px;z-index:-1;
+  }
+  .hero::before{left:-40px;top:26%}.hero::after{right:-42px;bottom:15%;transform:rotate(-13deg)}
+  .hero-inner{width:min(950px,100%);text-align:center}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;padding:7px 15px;
+    background:#fff;border:2px solid var(--yellow);border-radius:999px;
+    font-size:.88rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;
+  }
+  h1{font-size:clamp(2.45rem,8vw,5.7rem);line-height:.95;margin:24px auto 18px;letter-spacing:-.055em;max-width:920px}
+  h1 .pop{color:var(--purple);text-shadow:3px 3px 0 #fff,6px 6px 0 rgba(255,216,77,.8)}
+  .lede{font-size:clamp(1.08rem,2.8vw,1.45rem);max-width:650px;margin:0 auto 30px}
+  .fraction-badge{
+    width:150px;height:174px;margin:10px auto 26px;background:#fff;border:4px solid var(--ink);
+    border-radius:36px;display:grid;grid-template-rows:1fr 8px 1fr;align-items:center;
+    box-shadow:9px 10px 0 var(--mint);transform:rotate(-3deg);font-weight:950;font-size:3.1rem;
+  }
+  .fraction-badge .bar{height:8px;background:var(--ink);margin:0 27px;border-radius:10px}
+  .start-link{
+    display:inline-block;color:white;background:var(--purple);padding:14px 25px;border-radius:18px;
+    text-decoration:none;font-weight:900;box-shadow:0 7px 0 #4730a9;transition:transform .18s,box-shadow .18s;
+  }
+  .start-link:hover{transform:translateY(2px);box-shadow:0 5px 0 #4730a9}
+  .lesson{padding:70px 18px 90px}
+  .section-heading{text-align:center;max-width:700px;margin:0 auto 30px}
+  .section-heading h2{font-size:clamp(2rem,5vw,3.5rem);line-height:1.05;margin:0 0 14px}
+  .section-heading p{font-size:1.08rem;margin:0}
+  .lab-card{
+    width:min(920px,100%);margin:auto;background:rgba(255,255,255,.92);border:3px solid white;
+    border-radius:34px;box-shadow:var(--shadow);overflow:hidden;
+  }
+  .lab-top{background:linear-gradient(120deg,#6c4ce3,#9a5cff);color:white;padding:18px 22px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+  .lab-top strong{font-size:1.05rem}.step-count{font-size:.9rem;font-weight:800;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:999px}
+  .progress{height:10px;background:#e8e1ff;display:flex}
+  .progress span{flex:1;border-right:2px solid white;background:transparent;transition:background .3s}
+  .progress span.on{background:var(--yellow)}
+  .stage{padding:clamp(25px,5vw,52px);min-height:530px;display:grid;align-content:center;text-align:center}
+  .stage-kicker{color:var(--purple);font-size:.9rem;font-weight:950;text-transform:uppercase;letter-spacing:.08em;margin:0 0 6px}
+  #stageTitle{font-size:clamp(1.8rem,5vw,3rem);line-height:1.05;margin:0 auto 10px}
+  #stageText{max-width:660px;margin:0 auto 25px;font-size:clamp(1rem,2.6vw,1.22rem);min-height:3.1em}
+  .snack-wrap{position:relative;width:min(650px,100%);margin:10px auto 25px;padding-top:42px}
+  .snack{
+    --total:8;display:grid;grid-template-columns:repeat(var(--total),minmax(0,1fr));
+    height:150px;border:6px solid var(--ink);border-radius:28px;overflow:hidden;background:#fff3c7;
+    box-shadow:0 12px 0 rgba(39,48,77,.12);position:relative;
+  }
+  .piece{
+    min-width:0;background:#fff0b3;border-right:3px dashed rgba(39,48,77,.35);
+    display:grid;place-items:center;transition:background .45s,transform .45s,filter .45s;
+  }
+  .piece:last-child{border-right:0}
+  .piece::after{content:"";width:12px;height:12px;background:#be7437;border-radius:50%;box-shadow:18px 24px 0 #be7437,-16px 29px 0 #be7437;opacity:.7}
+  .piece.chosen{background:var(--pink);filter:saturate(1.08)}
+  .piece.chosen::after{background:#fff4c7;box-shadow:18px 24px 0 #fff4c7,-16px 29px 0 #fff4c7}
+  .whole-cover{
+    position:absolute;inset:42px 0 0;background:linear-gradient(135deg,#ffd45b,#ffb84c);border:6px solid var(--ink);
+    height:150px;border-radius:28px;display:grid;place-items:center;font-size:clamp(1.3rem,4vw,2rem);font-weight:950;
+    transition:opacity .4s,transform .4s;z-index:2;
+  }
+  .whole-cover::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:#a95e32;box-shadow:90px 25px 0 #a95e32,-120px 29px 0 #a95e32,180px -20px 0 #a95e32,-200px -26px 0 #a95e32}
+  .snack-wrap.split .whole-cover{opacity:0;transform:scale(.95);pointer-events:none}
+  .number-label{
+    position:absolute;top:0;padding:7px 12px;border-radius:12px;font-weight:950;opacity:0;transform:translateY(10px);transition:.4s;
+  }
+  .number-label.numerator{left:8%;background:#ffe0ee;color:#a41252}
+  .number-label.denominator{right:8%;background:#e7e2ff;color:#4d32bd}
+  .snack-wrap.show-labels .number-label{opacity:1;transform:none}
+  .fraction-readout{
+    margin:10px auto 0;display:inline-grid;grid-template-columns:auto 74px auto;align-items:center;gap:14px;
+    opacity:0;transform:translateY(12px);transition:.4s;
+  }
+  .fraction-readout.show{opacity:1;transform:none}
+  .fraction-stack{display:grid;grid-template-rows:1fr 5px 1fr;font-size:2.2rem;font-weight:950;line-height:1.05;color:var(--ink)}
+  .fraction-stack .line{height:5px;background:var(--ink);border-radius:5px}
+  .role{font-size:.9rem;font-weight:900;padding:8px 10px;border-radius:13px}
+  .role.top{background:#ffe0ee;color:#a41252}.role.bottom{background:#e7e2ff;color:#4d32bd}
+  .aha{
+    max-width:650px;margin:18px auto 0;padding:16px 18px;border:3px solid var(--mint);background:#effffb;
+    border-radius:20px;font-size:1.06rem;font-weight:850;opacity:0;transform:scale(.94);transition:.45s;
+  }
+  .aha.show{opacity:1;transform:scale(1)}
+  .controls{display:flex;justify-content:center;gap:12px;padding:18px 22px 25px;background:#faf8ff;border-top:2px solid #efebff;flex-wrap:wrap}
+  .control-btn{border:0;border-radius:15px;padding:12px 20px;font-weight:900;cursor:pointer;transition:transform .16s,opacity .16s}
+  .control-btn:hover:not(:disabled){transform:translateY(-2px)}
+  .control-btn:disabled{opacity:.38;cursor:not-allowed}
+  .back-btn{background:#e8e3f7;color:var(--ink)}
+  .next-btn{background:var(--purple);color:white;box-shadow:0 5px 0 #4730a9}
+  .play-btn{background:var(--yellow);color:var(--ink);box-shadow:0 5px 0 #d2a900}
+  .playground{padding:90px 18px;background:linear-gradient(180deg,rgba(78,156,255,.08),rgba(82,214,181,.14))}
+  .mixer{
+    width:min(920px,100%);margin:auto;display:grid;grid-template-columns:minmax(250px,.8fr) minmax(300px,1.2fr);
+    gap:24px;align-items:stretch;
+  }
+  .panel{background:white;border-radius:30px;padding:clamp(22px,4vw,36px);box-shadow:var(--shadow);border:3px solid white}
+  .panel h3{font-size:1.5rem;margin:0 0 8px}.panel p{margin:0 0 23px}
+  .dial{display:grid;grid-template-columns:50px 1fr 50px;align-items:center;gap:8px;margin:20px 0}
+  .dial-label{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;font-weight:900}
+  .dial-label output{font-size:1.45rem;background:#f2efff;min-width:45px;text-align:center;border-radius:12px;padding:3px 8px}
+  .dial button{width:50px;height:50px;border:0;border-radius:16px;background:var(--purple);color:white;font-size:1.6rem;font-weight:900;cursor:pointer}
+  .dial button:disabled{opacity:.35;cursor:not-allowed}
+  .dial-track{height:15px;background:#eeeafc;border-radius:99px;overflow:hidden}
+  .dial-track span{display:block;height:100%;width:50%;background:linear-gradient(90deg,var(--pink),var(--yellow));border-radius:99px;transition:width .3s}
+  .mix-visual{display:grid;place-items:center;align-content:center;text-align:center;min-height:430px}
+  .mini-snack{display:grid;width:min(520px,100%);height:140px;border:5px solid var(--ink);border-radius:25px;overflow:hidden;box-shadow:0 10px 0 rgba(39,48,77,.12);margin:18px auto 22px}
+  .mini-piece{background:#fff0b3;border-right:3px dashed rgba(39,48,77,.35);transition:background .35s,transform .35s}
+  .mini-piece:last-child{border-right:0}.mini-piece.chosen{background:var(--pink)}
+  .sentence{font-weight:900;font-size:1.13rem;max-width:560px;min-height:3.3em}
+  .word-num{color:#b20d59}.word-den{color:#5134c6}
+  .tiny-rule{margin-top:20px;padding:14px 18px;border-radius:18px;background:#f4f1ff;font-weight:800}
+  .recap{padding:90px 18px;text-align:center}
+  .recap-card{width:min(760px,100%);margin:auto;background:#fff;border:4px solid var(--yellow);border-radius:34px;padding:clamp(28px,6vw,55px);box-shadow:10px 12px 0 var(--mint)}
+  .recap-card h2{font-size:clamp(2rem,6vw,3.7rem);line-height:1;margin:0 0 20px}
+  .recap-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:28px 0;text-align:left}
+  .recap-item{padding:20px;border-radius:22px;font-weight:850}.recap-item strong{display:block;font-size:1.25rem;margin-bottom:5px}
+  .recap-item.num{background:#ffe5f0}.recap-item.den{background:#e9e4ff}
+  footer{padding:35px 20px 70px;text-align:center;color:#505875}
+  footer a{color:var(--purple);font-weight:900}
+  .byline{font-weight:900;color:var(--ink)}
+  @media(max-width:720px){
+    .mixer{grid-template-columns:1fr}.stage{min-height:560px}.lab-top{align-items:flex-start}
+    .number-label{font-size:.74rem}.recap-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:430px){
+    .dz-back{position:absolute}.hero{padding-left:14px;padding-right:14px}.fraction-badge{transform:none}
+    .lesson,.playground,.recap{padding-left:10px;padding-right:10px}.lab-card,.panel{border-radius:24px}
+    .stage{padding:25px 14px;min-height:520px}.snack{height:120px;border-width:4px;border-radius:20px}
+    .whole-cover{height:120px;border-width:4px;border-radius:20px}.piece{border-right-width:2px}.piece::after{width:7px;height:7px;box-shadow:10px 18px 0 #be7437,-8px 23px 0 #be7437}
+    .piece.chosen::after{box-shadow:10px 18px 0 #fff4c7,-8px 23px 0 #fff4c7}
+    .fraction-readout{grid-template-columns:70px 60px 70px;gap:6px}.role{font-size:.72rem;padding:7px 5px}
+    .controls{gap:8px;padding-left:10px;padding-right:10px}.control-btn{padding:11px 13px;font-size:.9rem}
+    .mini-snack{height:110px}.panel{padding:22px 16px}.recap-card{border-radius:25px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+    #playStory{display:none}
+  }
+</style>
+</head>
+<body>
+<a href="https://everywhy.ai" class="dz-back" aria-label="Back to all Everywhy courses">← All courses</a>
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-inner">
+      <div class="eyebrow">🍪 Fraction Snack Lab</div>
+      <h1 id="hero-title">Meet the <span class="pop">two numbers</span> in a fraction!</h1>
+      <p class="lede">They sit close together, but they have two completely different jobs. Let’s pull a fraction apart and see what each number does.</p>
+      <div class="fraction-badge" aria-label="The fraction three eighths"><span>3</span><span class="bar"></span><span>8</span></div>
+      <a class="start-link" href="#lab">Open the snack lab ↓</a>
+    </div>
+  </section>
+
+  <section class="lesson" id="lab" aria-labelledby="lab-heading">
+    <header class="section-heading">
+      <h2 id="lab-heading">One snack. Two number jobs.</h2>
+      <p>Use the buttons to split one whole snack, choose some pieces, and discover the fraction.</p>
+    </header>
+    <div class="lab-card">
+      <div class="lab-top"><strong>🔬 Guided experiment</strong><span class="step-count" id="stepCount">Step 1 of 5</span></div>
+      <div class="progress" id="progress" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="stage" aria-live="polite">
+        <p class="stage-kicker" id="stageKicker">Start with the whole</p>
+        <h3 id="stageTitle">Here is one whole snack.</h3>
+        <p id="stageText">A fraction begins with one whole thing. Right now, we have not split it into pieces.</p>
+        <div class="snack-wrap" id="snackWrap">
+          <div class="number-label numerator">NUMERATOR → chosen pieces</div>
+          <div class="number-label denominator">DENOMINATOR → all pieces</div>
+          <div class="snack" id="guidedSnack" aria-hidden="true"></div>
+          <div class="whole-cover" id="wholeCover" aria-hidden="true">ONE WHOLE SNACK</div>
+        </div>
+        <div class="fraction-readout" id="fractionReadout" aria-label="Three eighths">
+          <span class="role top">counts the<br>pink pieces</span>
+          <span class="fraction-stack"><span>3</span><span class="line"></span><span>8</span></span>
+          <span class="role bottom">counts all<br>equal pieces</span>
+        </div>
+        <div class="aha" id="aha">✨ Aha! <strong>3⁄8</strong> means <strong>3 chosen pieces</strong> out of <strong>8 equal pieces</strong> in the whole.</div>
+      </div>
+      <div class="controls">
+        <button class="control-btn back-btn" id="prevStep" type="button">← Back</button>
+        <button class="control-btn next-btn" id="nextStep" type="button">Next step →</button>
+        <button class="control-btn play-btn" id="playStory" type="button">▶ Play all</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="playground" aria-labelledby="mix-heading">
+    <header class="section-heading">
+      <h2 id="mix-heading">Now you run the lab!</h2>
+      <p>Change either number and watch its job happen.</p>
+    </header>
+    <div class="mixer">
+      <div class="panel">
+        <h3>🎛 Fraction controls</h3>
+        <p>The bottom control splits the whole. The top control colours pieces.</p>
+        <div class="dial">
+          <div class="dial-label"><span class="word-den">Denominator: all equal pieces</span><output id="denOut">5</output></div>
+          <button type="button" id="denMinus" aria-label="Use fewer total pieces">−</button>
+          <div class="dial-track" aria-hidden="true"><span id="denTrack"></span></div>
+          <button type="button" id="denPlus" aria-label="Use more total pieces">+</button>
+        </div>
+        <div class="dial">
+          <div class="dial-label"><span class="word-num">Numerator: chosen pieces</span><output id="numOut">2</output></div>
+          <button type="button" id="numMinus" aria-label="Choose fewer pieces">−</button>
+          <div class="dial-track" aria-hidden="true"><span id="numTrack"></span></div>
+          <button type="button" id="numPlus" aria-label="Choose more pieces">+</button>
+        </div>
+        <div class="tiny-rule">Keep the pieces <strong>equal-sized</strong>. Fair shares are the secret ingredient!</div>
+      </div>
+      <div class="panel mix-visual">
+        <div class="fraction-stack" id="liveFraction" aria-label="Two fifths"><span id="liveNum">2</span><span class="line"></span><span id="liveDen">5</span></div>
+        <div class="mini-snack" id="miniSnack" aria-hidden="true"></div>
+        <p class="sentence" id="liveSentence" aria-live="polite">The <span class="word-num">numerator 2</span> counts 2 pink pieces. The <span class="word-den">denominator 5</span> counts all 5 equal pieces.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="recap" aria-labelledby="recap-heading">
+    <div class="recap-card">
+      <div class="eyebrow">⭐ You cracked the fraction code!</div>
+      <h2 id="recap-heading">Look up. Look down.</h2>
+      <div class="recap-grid">
+        <div class="recap-item num"><strong>Numerator = chosen</strong>The top number counts the pieces we mean.</div>
+        <div class="recap-item den"><strong>Denominator = whole split</strong>The bottom number counts all equal pieces in one whole.</div>
+      </div>
+      <p>Put the two jobs together and a fraction tells us: <strong>how many chosen pieces out of how many equal pieces altogether.</strong></p>
+    </div>
+  </section>
+</main>
+<footer>
+  <p class="byline">Made by YiQ · Fraction Snack Lab</p>
+  <p><a href="https://everywhy.ai">← Back to the Everywhy gallery</a></p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Verified guided example:
+     1 whole ÷ 8 equal pieces = 1/8 per piece (12.5% of the bar).
+     3 chosen pieces × 1/8 = 3/8 of the whole (37.5%).
+     CSS Grid uses eight equal 1fr columns, so the rendered geometry follows these values. */
+  var GUIDED_TOTAL = 8;
+  var GUIDED_CHOSEN = 3;
+  var guidedSnack = document.getElementById('guidedSnack');
+  var snackWrap = document.getElementById('snackWrap');
+  var fractionReadout = document.getElementById('fractionReadout');
+  var aha = document.getElementById('aha');
+  var stageKicker = document.getElementById('stageKicker');
+  var stageTitle = document.getElementById('stageTitle');
+  var stageText = document.getElementById('stageText');
+  var stepCount = document.getElementById('stepCount');
+  var progressBits = Array.prototype.slice.call(document.querySelectorAll('#progress span'));
+  var prevStep = document.getElementById('prevStep');
+  var nextStep = document.getElementById('nextStep');
+  var playStory = document.getElementById('playStory');
+  var stage = 0;
+  var playTimer = 0;
+
+  var stages = [
+    {k:'Start with the whole',t:'Here is one whole snack.',d:'A fraction begins with one whole thing. Right now, we have not split it into pieces.'},
+    {k:'Job 1: split the whole',t:'Cut it into 8 equal pieces.',d:'The denominator is 8 because there are 8 equal pieces altogether. It belongs on the bottom.'},
+    {k:'Job 2: choose some pieces',t:'Colour 3 of those pieces.',d:'The numerator is 3 because we chose 3 pieces. It belongs on the top.'},
+    {k:'Give each number its name',t:'Top counts chosen. Bottom counts all.',d:'Numerator and denominator are not just positions—they tell us which counting job each number does.'},
+    {k:'Put the idea back together',t:'Three eighths tells the whole story.',d:'The fraction 3⁄8 says: 3 chosen pieces out of 8 equal pieces in one whole.'}
+  ];
+
+  function buildPieces(container,total,chosen,className){
+    container.innerHTML = '';
+    container.style.gridTemplateColumns = 'repeat(' + total + ', minmax(0, 1fr))';
+    for(var i=0;i<total;i+=1){
+      var piece = document.createElement('div');
+      piece.className = className + (i < chosen ? ' chosen' : '');
+      container.appendChild(piece);
+    }
+  }
+
+  function renderStage(){
+    var data = stages[stage];
+    stageKicker.textContent = data.k;
+    stageTitle.textContent = data.t;
+    stageText.textContent = data.d;
+    stepCount.textContent = 'Step ' + (stage + 1) + ' of ' + stages.length;
+    progressBits.forEach(function(bit,index){bit.classList.toggle('on',index<=stage);});
+    snackWrap.classList.toggle('split',stage>=1);
+    snackWrap.classList.toggle('show-labels',stage>=3);
+    fractionReadout.classList.toggle('show',stage>=3);
+    aha.classList.toggle('show',stage>=4);
+    buildPieces(guidedSnack,GUIDED_TOTAL,stage>=2?GUIDED_CHOSEN:0,'piece');
+    prevStep.disabled = stage===0;
+    nextStep.disabled = stage===stages.length-1;
+    nextStep.textContent = stage===stages.length-2?'Reveal the aha! ✨':'Next step →';
+    playStory.textContent = stage===stages.length-1?'↻ Play again':'▶ Play all';
+  }
+
+  function stopPlay(){
+    if(playTimer){window.clearTimeout(playTimer);playTimer=0;}
+  }
+  function playFromStart(){
+    if(reduceMotion){return;}
+    stopPlay();stage=0;renderStage();
+    function advance(){
+      if(stage<stages.length-1){stage+=1;renderStage();playTimer=window.setTimeout(advance,2200);}
+      else{playTimer=0;playStory.textContent='↻ Play again';}
+    }
+    playTimer=window.setTimeout(advance,1500);
+  }
+  prevStep.addEventListener('click',function(){stopPlay();stage=Math.max(0,stage-1);renderStage();});
+  nextStep.addEventListener('click',function(){stopPlay();stage=Math.min(stages.length-1,stage+1);renderStage();});
+  playStory.addEventListener('click',playFromStart);
+
+  var denominator = 5;
+  var numerator = 2;
+  var denOut = document.getElementById('denOut');
+  var numOut = document.getElementById('numOut');
+  var denMinus = document.getElementById('denMinus');
+  var denPlus = document.getElementById('denPlus');
+  var numMinus = document.getElementById('numMinus');
+  var numPlus = document.getElementById('numPlus');
+  var denTrack = document.getElementById('denTrack');
+  var numTrack = document.getElementById('numTrack');
+  var miniSnack = document.getElementById('miniSnack');
+  var liveNum = document.getElementById('liveNum');
+  var liveDen = document.getElementById('liveDen');
+  var liveFraction = document.getElementById('liveFraction');
+  var liveSentence = document.getElementById('liveSentence');
+
+  function fractionName(n,d){return n + ' ' + (d===2?'halves':d===3?'thirds':d===4?'fourths':d===5?'fifths':d===6?'sixths':d===7?'sevenths':'eighths');}
+  function renderMixer(){
+    denOut.textContent=denominator;numOut.textContent=numerator;liveNum.textContent=numerator;liveDen.textContent=denominator;
+    denTrack.style.width=((denominator-2)/6*100)+'%';
+    numTrack.style.width=(numerator/denominator*100)+'%';
+    buildPieces(miniSnack,denominator,numerator,'mini-piece');
+    liveFraction.setAttribute('aria-label',fractionName(numerator,denominator));
+    liveSentence.innerHTML='The <span class="word-num">numerator '+numerator+'</span> counts '+numerator+' pink piece'+(numerator===1?'':'s')+'. The <span class="word-den">denominator '+denominator+'</span> counts all '+denominator+' equal pieces.';
+    denMinus.disabled=denominator<=2;denPlus.disabled=denominator>=8;numMinus.disabled=numerator<=0;numPlus.disabled=numerator>=denominator;
+  }
+  denMinus.addEventListener('click',function(){denominator-=1;numerator=Math.min(numerator,denominator);renderMixer();});
+  denPlus.addEventListener('click',function(){denominator+=1;renderMixer();});
+  numMinus.addEventListener('click',function(){numerator-=1;renderMixer();});
+  numPlus.addEventListener('click',function(){numerator+=1;renderMixer();});
+  renderStage();renderMixer();
+})();
+</script>
+</body>
+</html>
