@@ -1,0 +1,15 @@
+{
+  "format_version": 1,
+  "slug": "ericqian77-vibration-relay",
+  "topic": "ericqian77-vibration-relay",
+  "title": "The Vibration Relay",
+  "summary": "Follow one vibration from a drum skin through air, the ear, and onward as a signal to the brain.",
+  "tag": "science",
+  "level": "kids",
+  "lang": "en",
+  "accent": "#E85D3F",
+  "author": "ericqian77",
+  "license": "CC BY-SA 4.0",
+  "prerequisites": null,
+  "age_range": "9-10"
+}
