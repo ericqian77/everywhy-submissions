@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+  DCF v1 course. Subject derivation/source note: Curriculum check: BC Arts Education 4 includes artistic elements, image-development strategies, symbolism, experimentation, and communicating meaning. The course avoids claiming universal colour-emotion rules.
+  Stage values and geometry are declared in the DOM/config below so a reviewer
+  can independently compare rendered states with the teaching claims.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23ffffff'/%3E%3Cpath d='M18 32h28M32 18v28' stroke='%2317202a' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E" />
+<title>Paint the Feeling</title>
+<meta name="description" content="Transform one street scene by changing colour temperature, value, line, and focal contrast." />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Paint the Feeling" />
+<meta property="og:description" content="Transform one street scene by changing colour temperature, value, line, and focal contrast." />
+<meta property="og:image" content="https://everywhy.ai/assets/og-default.png" />
+<meta property="og:locale" content="en_CA" />
+<style>
+:root{--accent:#E36D4D;--ink:#17202a;--paper:#fff;--muted:#5d6772}*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}body{margin:0;color:var(--ink);background:#f4f2ed;font-family:ui-rounded,"Avenir Next",system-ui,-apple-system,sans-serif;line-height:1.55}button,a{font:inherit}.dz-back{position:fixed;left:14px;top:14px;z-index:9999;padding:8px 14px;border-radius:99px;background:#fffc;color:#17202a;border:1px solid #17202a33;text-decoration:none;font-size:12px;font-weight:800;backdrop-filter:blur(8px)}main{overflow:hidden}.hero{min-height:88vh;display:grid;place-items:center;padding:90px 24px 50px;background:linear-gradient(145deg,#fff,#f1eee7)}.hero-inner{width:min(920px,100%)}.kicker{text-transform:uppercase;letter-spacing:.16em;font-size:12px;font-weight:900;color:var(--accent)}h1{font-size:clamp(48px,9vw,108px);line-height:.88;letter-spacing:-.055em;margin:18px 0;max-width:900px}.hook{font-size:clamp(21px,3vw,34px);font-weight:800;max-width:760px;margin:30px 0 12px}.lead{font-size:18px;color:var(--muted);max-width:700px}.start-cue{display:inline-block;margin-top:35px;border-bottom:3px solid var(--accent);font-weight:900}.story{position:relative}.story.scroll{height:500vh}.stage-wrap{padding:34px 18px}.scroll .stage-wrap{height:100vh;position:sticky;top:0;display:grid;place-items:center}.stage-shell{width:min(1020px,96vw);overflow:hidden}.stage-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;background:#ffffffdd;color:#17202a;border-bottom:1px solid #17202a22}.stage-top b{font-size:11px;letter-spacing:.12em}.progress{display:flex;gap:7px}.progress button{width:29px;height:29px;border-radius:50%;border:1px solid #17202a55;background:#fff;color:#17202a;font-size:11px;font-weight:900;cursor:pointer}.progress button.active{background:var(--accent);color:#fff;border-color:var(--accent)}.visual{min-height:350px;overflow:hidden}.caption{padding:18px 22px 20px;background:#fff;color:#17202a;min-height:148px;position:relative}.caption h2{font-size:clamp(22px,3vw,34px);line-height:1.05;margin:0 0 9px}.caption p{margin:0;color:#4e5964;max-width:760px}.controls{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}.controls button{border:2px solid #17202a;background:#fff;color:#17202a;padding:8px 13px;border-radius:99px;font-weight:900;cursor:pointer}.controls .play{background:var(--accent);border-color:var(--accent);color:#fff}.controls button:disabled{opacity:.4;cursor:not-allowed}.part,[data-from],[data-only]{opacity:.08;transition:opacity .45s ease,transform .45s ease}.on{opacity:1!important}.lesson-note{padding:80px 24px;background:#fff}.lesson-note>div{width:min(760px,100%);margin:auto}.lesson-note h2{font-size:clamp(32px,5vw,60px);line-height:1;margin:0 0 20px}.lesson-note p{font-size:18px}.source{margin-top:35px;padding:15px;border-left:5px solid var(--accent);background:#f5f3ef;font-size:13px;color:#4e5964}.dz-end{padding:70px 24px;text-align:center;background:#17202a;color:#fff}.dz-end strong{display:block;font-size:clamp(26px,5vw,52px);margin-bottom:22px}.dz-end a{color:#fff}.reduced-note{display:none}.agency .caption,.blueprint .caption,.circuit .caption,.map .caption,.theatre .caption,.mixer .caption,.track .caption,.atelier .caption,.civic .caption,.lab .caption{border-top:1px solid #17202a22}.atelier .stage-shell{background:#f3eadc;color:#332d28;border-radius:8px;box-shadow:0 15px 45px #6d513d33}.atelier .visual{background:linear-gradient(110deg,#d8c7b0,#f6efe5)}.paint-studio{min-height:430px;position:relative;padding:30px;display:grid;place-items:center}.canvas-frame{width:min(560px,82%);height:310px;background:#cbc8bd;border:14px solid #7b5a3d;box-shadow:0 7px 0 #4d3624;position:relative;overflow:hidden;transition:filter .5s}.sky{position:absolute;inset:0 0 45%;background:#bfc9c8}.building{position:absolute;bottom:22%;background:#9b8f83;border:4px solid #45403b}.b1{left:8%;width:25%;height:48%}.b2{left:35%;width:31%;height:62%}.b3{right:7%;width:25%;height:42%}.street{position:absolute;left:-10%;right:-10%;bottom:-15%;height:40%;background:#666;transform:perspective(300px) rotateX(20deg)}.door{position:absolute;left:48%;bottom:22%;width:11%;height:28%;background:#dad5c8;border:4px solid #45403b}.tree{position:absolute;right:13%;bottom:24%;font-size:68px;color:#65705c}.palette{position:absolute;left:14px;top:35px;display:grid;gap:7px;background:#fff;padding:10px;border-radius:30px}.palette i{width:25px;height:25px;border-radius:50%;background:#e36d4d}.palette i:nth-child(2){background:#e7af55}.palette i:nth-child(3){background:#497da4}.palette i:nth-child(4){background:#263b57}.value-scale{position:absolute;right:12px;top:35px;display:flex}.value-scale i{width:20px;height:35px;background:#111}.value-scale i:nth-child(2){background:#444}.value-scale i:nth-child(3){background:#777}.value-scale i:nth-child(4){background:#aaa}.value-scale i:nth-child(5){background:#eee}.brush-lines{position:absolute;left:25px;bottom:24px}.brush-lines i{display:block;width:90px;border-top:4px solid #4c3428;margin:8px;transform:rotate(-5deg)}.brush-lines i:nth-child(2){border-top-style:dashed;transform:rotate(4deg)}.focus-note{position:absolute;right:20px;bottom:25px;background:#fff;padding:7px;font-weight:900}.atelier [data-stage="1"] .canvas-frame{filter:sepia(.35) saturate(1.35)}.atelier [data-stage="2"] .canvas-frame{filter:contrast(1.45) saturate(.8)}.atelier [data-stage="3"] .building{border-style:dashed}.atelier [data-stage="4"] .canvas-frame{filter:brightness(.76) contrast(1.25)}.atelier [data-stage="4"] .door{background:#fff4a8;box-shadow:0 0 35px #fff4a8}@media(max-width:650px){.canvas-frame{width:90%;height:285px}.paint-studio{min-height:420px;padding:15px}.palette{top:8px}.value-scale{top:8px}}
+.circuit .energy-equation{transform:translateX(-50%) scale(.82)}.circuit .energy-equation.on{transform:translateX(-50%) scale(1)}
+.theatre .stage-shell{border-radius:36px 36px 12px 12px}
+.civic .service-counter{min-height:470px;padding:18px 20px;grid-template-rows:auto 1fr auto}.civic .counter{grid-row:2}.civic .service-counter aside{position:relative;inset:auto;grid-column:1/-1;grid-row:1}.civic .shared{position:relative;left:auto;bottom:auto;transform:none;width:auto;grid-column:1/-1;grid-row:3}
+main{overflow:visible}body{overflow-x:clip}
+.stage-top{padding-left:140px}
+@media(max-width:650px){.hero{min-height:78vh;padding-inline:18px}h1{font-size:52px}.stage-wrap{padding:10px}.scroll .stage-wrap{align-items:start;padding-top:10px}.stage-shell{width:100%}.stage-top{padding:10px}.visual{min-height:320px}.caption{padding:15px;min-height:190px}.caption h2{font-size:24px}.progress{gap:3px}.progress button{width:27px;height:27px}.lesson-note{padding:55px 20px}}
+@media(max-width:650px){.stage-top{padding-left:10px;justify-content:flex-end;min-height:50px}.stage-top>b{display:none}}
+@media(max-width:650px){.theatre .maya,.theatre .noah{bottom:20%}.theatre .fact-strip{bottom:3%}.agency .agency-desk{min-height:560px;grid-template-rows:auto auto}.agency .inspection{position:relative;inset:auto;transform:none;z-index:2}.civic .service-counter{grid-template-columns:1fr;grid-template-rows:auto;min-height:820px;padding:14px}.civic .service-counter aside{grid-row:1}.civic .federal{grid-row:2}.civic .provincial{grid-row:3}.civic .municipal{grid-row:4}.civic .shared{grid-row:5;width:auto}}
+@media(max-width:650px){.map .field-map{min-height:350px}.map .map-paper{min-height:300px}.theatre .recess-stage{min-height:420px}.circuit .energy-tunnel{min-height:430px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.story.scroll{height:auto}.scroll .stage-wrap{position:relative;height:auto}.play{display:none!important}.reduced-note{display:block;font-size:12px;font-weight:800;color:#5b6470}.on{transform:none!important}}
+</style>
+</head>
+<body class="atelier">
+<a href="https://everywhy.ai" class="dz-back">← All courses</a>
+<main>
+  <section class="hero"><div class="hero-inner"><div class="kicker">Visual arts · Grade 4</div><h1>Paint the Feeling</h1><p class="hook">Can the exact same street feel welcoming in one painting and mysterious in another?</p><p class="lead">The subject stays still. The artist changes how visual elements guide attention and suggest a feeling.</p><span class="start-cue">Open the lab and build the idea ↓</span></div></section>
+  <section id="story" class="story stepper" data-mode="stepper">
+    <div class="stage-wrap"><div id="stage" class="stage-shell" data-stage="0">
+      <div class="stage-top"><b>STEP <span id="stepNum">1</span> OF 5</b><div id="progress" class="progress" aria-label="Course steps"></div></div>
+      <div class="visual"><div class="paint-studio" role="img" aria-label="The same street scene transformed through palette, value, line, and focal contrast">
+      <div class="canvas-frame"><div class="sky"></div><div class="building b1"></div><div class="building b2"></div><div class="building b3"></div><div class="street"></div><div class="door"></div><div class="tree">♣</div></div>
+      <div class="palette" data-from="1"><i></i><i></i><i></i><i></i></div>
+      <div class="value-scale" data-from="2"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="brush-lines" data-from="3"><i></i><i></i><i></i></div>
+      <div class="focus-note" data-from="4">FOCAL LIGHT →</div>
+    </div></div>
+      <div class="caption" aria-live="polite"><h2 id="cap"></h2><p id="sub"></p><div class="controls"><button id="prevBtn" type="button">← Previous</button><button id="nextBtn" type="button">Next →</button><button id="playBtn" class="play" type="button">▶ Play sequence</button></div><span class="reduced-note">Reduced motion is on. Use Previous and Next to inspect each state.</span></div>
+    </div></div>
+  </section>
+  <section class="lesson-note"><div><div class="kicker">Put it back together</div><h2>Focal contrast directs the final glance.</h2><p>The brightest doorway against a darker street becomes the visual destination. Elements work together to create meaning.</p><div class="source"><b>Review note.</b> Curriculum check: BC Arts Education 4 includes artistic elements, image-development strategies, symbolism, experimentation, and communicating meaning. The course avoids claiming universal colour-emotion rules.</div></div></section>
+  <footer class="dz-end"><strong>One idea, rebuilt.</strong><a href="https://everywhy.ai">← Back to the everywhy.ai gallery</a></footer>
+</main>
+<script>
+(function(){
+  'use strict';
+  var stages=[["Begin with neutral shapes.","A street, three buildings, windows, and one tree provide the same geometry for every version."],["Warm and cool palettes shift the atmosphere.","Colour associations depend on context and culture, so treat them as choices—not fixed emotional laws."],["Value controls the light structure.","Large light and dark groupings decide what reads first, even before details."],["Line quality changes the energy.","Straight, steady lines and lively, broken lines can make the same forms feel different."],["Focal contrast directs the final glance.","The brightest doorway against a darker street becomes the visual destination. Elements work together to create meaning."]];
+  var metrics=[];
+  var values={};
+  var reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var story=document.getElementById('story'),stage=document.getElementById('stage');
+  var cap=document.getElementById('cap'),sub=document.getElementById('sub'),stepNum=document.getElementById('stepNum');
+  var prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),playBtn=document.getElementById('playBtn');
+  var progressEl=document.getElementById('progress');
+  var mode=story.getAttribute('data-mode'),index=0,autoTimer=0,autoRunning=false,hasPlayed=false,savedScrollBehavior=null;
+  stages.forEach(function(_,i){var b=document.createElement('button');b.type='button';b.textContent=String(i+1);b.setAttribute('aria-label','Go to step '+(i+1));b.addEventListener('click',function(){stopAuto();go(i,true)});progressEl.appendChild(b)});
+  function clamp(n){return Math.max(0,Math.min(stages.length-1,n))}
+  function apply(i){
+    index=clamp(i);stage.setAttribute('data-stage',String(index));cap.textContent=stages[index][0];sub.textContent=stages[index][1];stepNum.textContent=String(index+1);
+    Array.prototype.forEach.call(stage.querySelectorAll('[data-from]'),function(el){el.classList.toggle('on',index>=Number(el.getAttribute('data-from')))});
+    Array.prototype.forEach.call(stage.querySelectorAll('[data-only]'),function(el){el.classList.toggle('on',index===Number(el.getAttribute('data-only')))});
+    Array.prototype.forEach.call(progressEl.children,function(el,i2){el.classList.toggle('active',i2===index);el.setAttribute('aria-current',i2===index?'step':'false')});
+    prevBtn.disabled=index===0;nextBtn.disabled=index===stages.length-1;
+    if(document.getElementById('metric')&&metrics[index])document.getElementById('metric').textContent=metrics[index];
+    ['breath','heart','talk'].forEach(function(k){var el=document.getElementById(k);if(el&&values[k])el.textContent=values[k][index]});
+    if(document.getElementById('tempoRead'))document.getElementById('tempoRead').textContent=index<2?'72 BPM':(index===4?'72 or 120 BPM':'120 BPM');
+  }
+  function scrollTopFor(i){var travel=Math.max(1,story.offsetHeight-window.innerHeight);return story.offsetTop+travel*(.96*i/(stages.length-1))}
+  function go(i,user){i=clamp(i);if(mode==='scroll'&&!reduceMotion){window.scrollTo({top:scrollTopFor(i),behavior:user?'smooth':'auto'})}apply(i)}
+  function readScroll(){if(mode!=='scroll'||reduceMotion)return;var travel=Math.max(1,story.offsetHeight-window.innerHeight);var p=Math.max(0,Math.min(1,(window.scrollY-story.offsetTop)/travel));apply(Math.round(p*(stages.length-1)))}
+  function restoreScrollBehavior(){if(savedScrollBehavior===null)return;document.documentElement.style.scrollBehavior=savedScrollBehavior;savedScrollBehavior=null}
+  function stopAuto(){if(autoTimer)clearTimeout(autoTimer);autoTimer=0;if(autoRunning&&mode==='scroll')window.scrollTo({top:window.scrollY,behavior:'auto'});autoRunning=false;restoreScrollBehavior();if(hasPlayed)playBtn.textContent='↻ Replay'}
+  function play(){stopAuto();hasPlayed=true;if(mode==='scroll'){savedScrollBehavior=document.documentElement.style.scrollBehavior;document.documentElement.style.scrollBehavior='auto'}autoRunning=true;var i=0;function advance(){go(i,false);i++;if(i<stages.length){autoTimer=setTimeout(advance,2200)}else{autoTimer=setTimeout(function(){autoRunning=false;autoTimer=0;restoreScrollBehavior();playBtn.textContent='↻ Replay'},2200)}}advance()}
+  prevBtn.addEventListener('click',function(){stopAuto();go(index-1,true)});nextBtn.addEventListener('click',function(){stopAuto();go(index+1,true)});playBtn.addEventListener('click',play);
+  if(mode==='scroll')window.addEventListener('scroll',readScroll,{passive:true});
+  ['wheel','touchstart','pointerdown'].forEach(function(t){window.addEventListener(t,function(){if(autoRunning)stopAuto()},{passive:true})});
+  window.addEventListener('keydown',function(e){if(autoRunning&&['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].indexOf(e.key)>=0)stopAuto()});
+  if(reduceMotion)apply(stages.length-1);else apply(0);
+})();
+</script>
+</body>
+</html>
